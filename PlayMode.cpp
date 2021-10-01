@@ -203,7 +203,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	else
 		textRenderer2->draw("HateYou555", 540.0f, 570.0f, 0.2f, glm::vec3(0.3, 0.7f, 0.9f));
 
-	textRenderer3->draw("Super , Hero?", 100.0f, 250.0f, 0.6f, glm::vec3(0.8, 0.4f, 0.2f));
+	textRenderer3->draw("\"Super , Hero?\"", 100.0f, 250.0f, 0.6f, glm::vec3(0.8, 0.4f, 0.2f));
 	textRenderer3->draw(":) well, maybe not &&", 100.0f, 150.0f, 0.6f, glm::vec3(0.8, 0.4f, 0.2f));
 
 	textRenderer->draw("This is sample text", 25.0f, 25.0f, 0.4f, glm::vec3(0.5, 0.8f, 0.2f));

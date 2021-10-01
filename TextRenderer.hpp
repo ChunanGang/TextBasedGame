@@ -47,7 +47,7 @@ class TextRenderer{
     hb_buffer_t *hb_buffer = nullptr;
 
     // VAO, VBO for the quad (2 triangles/ 6 vertices) on which we render a glyph.
-    unsigned int VAO, VBO;
+    GLuint VAO, VBO;
 
     // helper functions
     void setupCharacterGlyphMap(); // constrcut the glyph map for common ascii-key chars
@@ -56,7 +56,7 @@ class TextRenderer{
     void changeTextContent();   // called when the displaying text is changed, to use harfbuzz to reshape
 
 public:
-    TextRenderer(){};
+    TextRenderer() = default;
 
     // constructor will init everything. it reads a ttf file
     TextRenderer(std::string filename);
@@ -72,6 +72,8 @@ public:
         hb_buffer_destroy(hb_buffer);
         hb_font_destroy(hb_font);
         destroyCharacterGlyphMap();
+        glDeleteBuffers(1,&VBO);
+        glDeleteVertexArrays(1,&VAO);
     }
 
 };

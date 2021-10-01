@@ -1,3 +1,12 @@
+/*
+This file is based on these resources:
+https://github.com/15-466/15-466-f21-base4
+https://github.com/harfbuzz/harfbuzz-tutorial/blob/master/hello-harfbuzz-freetype.c 
+https://www.freetype.org/freetype2/docs/tutorial/step1.html 
+https://learnopengl.com/In-Practice/Text-Rendering
+*/
+
+
 #include "TextRenderer.hpp"
 
 #define FONT_SIZE 100
