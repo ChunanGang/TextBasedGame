@@ -4,6 +4,7 @@
 #include "Sound.hpp"
 
 #include <glm/glm.hpp>
+#include "TextRenderer.hpp"
 
 #include <vector>
 #include <deque>
@@ -38,6 +39,9 @@ struct PlayMode : Mode {
 	float wobble = 0.0f;
 
 	glm::vec3 get_leg_tip_position();
+
+	TextRenderer * textRenderer;
+	TextRenderer * textRenderer2;
 
 	//music coming from the tip of the leg (as a demonstration):
 	std::shared_ptr< Sound::PlayingSample > leg_tip_loop;
