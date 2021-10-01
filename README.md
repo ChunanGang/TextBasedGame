@@ -37,5 +37,9 @@ bitmap in buffer using the textureID.  <br>
 
 ### Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
 
-This game was built with [NEST](NEST.md).
-
+This game was built with [NEST](NEST.md). <br>
+The code is developed from https://github.com/15-466/15-466-f21-base4 <br>
+And the text rendering pipeline is based on : <br>
+https://github.com/harfbuzz/harfbuzz-tutorial/blob/master/hello-harfbuzz-freetype.c
+https://www.freetype.org/freetype2/docs/tutorial/step1.html
+https://learnopengl.com/In-Practice/Text-Rendering
