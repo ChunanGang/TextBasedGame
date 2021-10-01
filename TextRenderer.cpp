@@ -1,6 +1,6 @@
 #include "TextRenderer.hpp"
 
-#define FONT_SIZE 40
+#define FONT_SIZE 100
 
 TextRenderer::TextRenderer(std::string fontfile)
 {
@@ -15,13 +15,15 @@ TextRenderer::TextRenderer(std::string fontfile)
         abort();
     }
     // font size we exctract from the face
+    // if you want to extract bitmap at runtime, you can use this as a scaling method
+    // But i choose to preload glyphs so I will set this here, and use a scale factor later to change size
     if ((ft_error = FT_Set_Char_Size (ft_face, FONT_SIZE*64, FONT_SIZE*64, 0, 0)))
         abort();
     
     // disable alignment since what we read from the face (font) is grey-scale
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); 
 
-    // constrcut the glyph map for all ascii-key chars
+    // constrcut the glyph map for common ascii-key chars
     setupCharacterGlyphMap();
 
     // setup vao,vbo for quad
@@ -57,13 +59,15 @@ void TextRenderer::draw(std::string text, float x, float y, float scale, glm::ve
     {
         // take out the glyph using char
         Glyph ch = CharacterGlyph[c];
-        // update the position
+        // calculate actual position
         float xpos = x + ch.Bearing.x * scale;
         float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
 
         // update VBO for each character (6 vertices to draw a quad, which holds a glyph)
+        // the info for each vector is (pos_x, pox_y, texture_coord_x, texture_coord_y)
+        // check my vertex shader at TextRenderProgram.cpp to see how it is used
         float vertices[6][4] = {
             { xpos,     ypos + h,   0.0f, 0.0f },            
             { xpos,     ypos,       0.0f, 1.0f },
@@ -120,15 +124,13 @@ void TextRenderer::changeTextContent(){
     pos = hb_buffer_get_glyph_positions (hb_buffer, NULL);
 }
 
-// constrcut the glyph map for all ascii-key chars
+// constrcut the glyph map for common ascii-key chars
 void TextRenderer::setupCharacterGlyphMap(){
-    // go over each ascii key
-    for (unsigned char c = 0; c < 128; c++)
-    {
-        // load character glyph 
-        if (FT_Load_Char(ft_face, c, FT_LOAD_RENDER))
-        {
-            std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+    // go over ascii key 32-126
+    for (unsigned char c = 32; c < 127; c++){
+        // load character glyph (which contains bitmap)
+        if (FT_Load_Char(ft_face, c, FT_LOAD_RENDER)){
+            std::cout << "Fail to load Glyph for: " << c << std::endl;
             continue;
         }
         // generate buffer
@@ -157,7 +159,6 @@ void TextRenderer::setupCharacterGlyphMap(){
             texture, 
             glm::ivec2(ft_face->glyph->bitmap.width, ft_face->glyph->bitmap.rows),
             glm::ivec2(ft_face->glyph->bitmap_left, ft_face->glyph->bitmap_top),
-            (unsigned int) ft_face->glyph->advance.x
         };
         CharacterGlyph.insert(std::pair<char, Glyph>(c, glyph));
     }

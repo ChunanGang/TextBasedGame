@@ -65,11 +65,13 @@ PlayMode::PlayMode() : scene(*hexapod_scene) {
 
 	textRenderer = new TextRenderer(data_path("OpenSans-Bold.ttf"));
 	textRenderer2 = new TextRenderer(data_path("PTS56F.ttf"));
+	textRenderer3 = new TextRenderer(data_path("PermanentMarker-Regular.ttf"));
 }
 
 PlayMode::~PlayMode() {
 	delete textRenderer;
 	delete textRenderer2;
+	delete textRenderer3;
 }
 
 bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
@@ -197,11 +199,14 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if(down.pressed)
-		textRenderer2->draw("LoveYouHHH", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+		textRenderer2->draw("LoveYouHHH", 540.0f, 570.0f, 0.2f, glm::vec3(0.3, 0.7f, 0.9f));
 	else
-		textRenderer2->draw("HateYou555", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+		textRenderer2->draw("HateYou555", 540.0f, 570.0f, 0.2f, glm::vec3(0.3, 0.7f, 0.9f));
 
-	textRenderer->draw("This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+	textRenderer3->draw("Super , Hero?", 100.0f, 250.0f, 0.6f, glm::vec3(0.8, 0.4f, 0.2f));
+	textRenderer3->draw(":) well, maybe not &&", 100.0f, 150.0f, 0.6f, glm::vec3(0.8, 0.4f, 0.2f));
+
+	textRenderer->draw("This is sample text", 25.0f, 25.0f, 0.4f, glm::vec3(0.5, 0.8f, 0.2f));
 	GL_ERRORS();
 }
 

@@ -42,6 +42,7 @@ struct PlayMode : Mode {
 
 	TextRenderer * textRenderer;
 	TextRenderer * textRenderer2;
+	TextRenderer * textRenderer3;
 
 	//music coming from the tip of the leg (as a demonstration):
 	std::shared_ptr< Sound::PlayingSample > leg_tip_loop;

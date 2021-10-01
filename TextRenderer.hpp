@@ -16,9 +16,8 @@
 // it also has a textureID that points to the texture_buffer that holds this glyph
 struct Glyph {
     GLuint textureID;  // ID handle of the glyph texture
-    glm::ivec2   Size;       // Size of glyph
-    glm::ivec2   Bearing;    // Offset from baseline to left/top of glyph
-    unsigned int Advance;    // Offset to advance to next glyph
+    glm::ivec2   Size;       // (width, height)
+    glm::ivec2   Bearing;    // Offset from baseline
 };
 
 
@@ -33,7 +32,7 @@ struct Glyph {
 class TextRenderer{
 
     // since i am only using english for my game, 
-    // going to create a glyph map for all ascii-key chars
+    // going to create a glyph map for common ascii-key chars
     std::map<char, Glyph> CharacterGlyph;
 
     std::string prevText = ""; // record the text drawn last time. call changeTextContent() when this changes.
@@ -51,7 +50,7 @@ class TextRenderer{
     unsigned int VAO, VBO;
 
     // helper functions
-    void setupCharacterGlyphMap(); // constrcut the glyph map for all ascii-key chars
+    void setupCharacterGlyphMap(); // constrcut the glyph map for common ascii-key chars
     void destroyCharacterGlyphMap(); // release the texture buffers from the map
     void bufferSetup(); // setup vao,vbo for quad
     void changeTextContent();   // called when the displaying text is changed, to use harfbuzz to reshape
