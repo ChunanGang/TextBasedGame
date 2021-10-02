@@ -62,7 +62,7 @@ public:
     TextRenderer(std::string filename);
 
     // draw a user-input text
-    void draw(std::string text, float x, float y, float scale, glm::vec3 color);
+    void draw(std::string text, float x, float y, glm::vec2 scale, glm::vec3 color);
 
     // destructor to free resources
     ~TextRenderer(){

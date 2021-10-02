@@ -4,6 +4,7 @@ https://github.com/15-466/15-466-f21-base4
 https://github.com/harfbuzz/harfbuzz-tutorial/blob/master/hello-harfbuzz-freetype.c 
 https://www.freetype.org/freetype2/docs/tutorial/step1.html 
 https://learnopengl.com/In-Practice/Text-Rendering
+https://github.com/GenBrg/MarryPrincess/blob/master/DrawFont.cpp
 */
 
 
@@ -23,6 +24,7 @@ TextRenderer::TextRenderer(std::string fontfile)
         std::cerr << "FT face init fail\n";
         abort();
     }
+
     // font size we exctract from the face
     // if you want to extract bitmap at runtime, you can use this as a scaling method
     // But i choose to preload glyphs so I will set this here, and use a scale factor later to change size
@@ -39,7 +41,7 @@ TextRenderer::TextRenderer(std::string fontfile)
     bufferSetup();
 }
 
-void TextRenderer::draw(std::string text, float x, float y, float scale, glm::vec3 color){
+void TextRenderer::draw(std::string text, float x, float y, glm::vec2 scale, glm::vec3 color){
     // check if text diff
     if(text.compare(prevText) != 0){
         prevText = text;
@@ -66,13 +68,19 @@ void TextRenderer::draw(std::string text, float x, float y, float scale, glm::ve
     uint16_t i=0;
     for (char c : text)
     {
+        // first get the hb shaping infos (offset & advance)
+        float x_offset = pos[i].x_offset / 64.0f;
+        float y_offset = pos[i].y_offset / 64.0f;
+        float x_advance = pos[i].x_advance / 64.0f;
+        float y_advance = pos[i].y_advance / 64.0f;
+
         // take out the glyph using char
         Glyph ch = CharacterGlyph[c];
         // calculate actual position
-        float xpos = x + ch.Bearing.x * scale;
-        float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
-        float w = ch.Size.x * scale;
-        float h = ch.Size.y * scale;
+        float xpos = x + (x_offset + ch.Bearing.x) * scale.x;
+        float ypos = y + (y_offset - (ch.Size.y - ch.Bearing.y)) * scale.y;
+        float w = ch.Size.x * scale.x;
+        float h = ch.Size.y * scale.y;
 
         // update VBO for each character (6 vertices to draw a quad, which holds a glyph)
         // the info for each vector is (pos_x, pox_y, texture_coord_x, texture_coord_y)
@@ -95,13 +103,10 @@ void TextRenderer::draw(std::string text, float x, float y, float scale, glm::ve
         // render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // get harfbuzz shaping
-        float x_advance = pos[i].x_advance / 64.0f;
-        float y_advance = pos[i].y_advance / 64.0f;
-        i++;
         // advance to next graph, using the harfbuzz shaping info
-        x += x_advance * scale;
-        y += y_advance * scale;
+        x += x_advance * scale.x;
+        y += y_advance * scale.y;
+        i++;
     }
 
     // unbind
@@ -123,9 +128,10 @@ void TextRenderer::changeTextContent(){
     hb_font = hb_ft_font_create (ft_face, NULL);
     /* Create hb-buffer and populate. */
     hb_buffer = hb_buffer_create ();
+
+    // reshape
     hb_buffer_add_utf8 (hb_buffer, prevText.c_str(), -1, 0, -1);
     hb_buffer_guess_segment_properties (hb_buffer);
-    /* Shape it! */
     hb_shape (hb_font, hb_buffer, NULL, 0);
 
     /* Get glyph information and positions out of the buffer. */

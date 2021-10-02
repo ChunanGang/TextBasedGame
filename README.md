@@ -1,12 +1,12 @@
-# (TODO: your game's title)
+# JUST LIKE ANIMAL
 
 ### Author: 
 
-(TODO: your name)
+Chunan(Oscar) Huang
 
 ### Design: 
 
-(TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+A question-based test that tells you what animal you could be, if not human.
 
 ### Text Drawing: 
 
@@ -33,9 +33,9 @@ bitmap in buffer using the textureID.  <br>
 
 ### How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+Press buttons A,B,C on kayboard to select answer. Press Enter to move on.
 
-### Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
+### Sources: 
 
 This game was built with [NEST](NEST.md). <br>
 The code is developed from https://github.com/15-466/15-466-f21-base4 <br>
@@ -43,3 +43,8 @@ And the text rendering pipeline is based on : <br>
 https://github.com/harfbuzz/harfbuzz-tutorial/blob/master/hello-harfbuzz-freetype.c
 https://www.freetype.org/freetype2/docs/tutorial/step1.html
 https://learnopengl.com/In-Practice/Text-Rendering
+Font assets:
+https://www.fontspace.com/open-sans-font-f22353 <br>
+https://www.fontspace.com/serat-font-f57208<br>
+https://www.fontspace.com/broadway-font-f57397<br>
+https://www.fontspace.com/really-font-f45186<br>
